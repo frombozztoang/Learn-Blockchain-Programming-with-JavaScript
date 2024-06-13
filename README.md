@@ -1,61 +1,39 @@
+# Blockchain Project
 
+## 프로젝트 개요
 
+이 프로젝트는 간단한 블록체인 네트워크를 구축하기 위한 Node.js 애플리케이션입니다. 블록체인과 네트워크 노드 간의 상호작용을 다룹니다.
 
-# Learn Blockchain Programming with JavaScript
+## 수정 사항
 
-<a href="https://www.packtpub.com/web-development/learn-blockchain-programming-javascript?utm_source=github&utm_medium=repository&utm_campaign=9781789618822"><img src="https://www.packtpub.com/sites/default/files/B12086.png" alt="Learn Blockchain Programming with JavaScript" height="256px" align="right"></a>
+### 1. 예외 처리 코드 추가
 
-This is the code repository for [Learn Blockchain Programming with JavaScript](https://www.packtpub.com/web-development/learn-blockchain-programming-javascript?utm_source=github&utm_medium=repository&utm_campaign=9781789618822), published by Packt.
+현재 코드는 정상적인 케이스만 고려되어 있으므로, 예외 처리를 추가하여 예상치 못한 상황에 대한 대응을 할 수 있도록 하였습니다. 예외 처리를 중앙 집중화하여 유지보수를 용이하게 하기 위해 `errors.js` 파일을 추가하였습니다.
 
-**Build your very own Blockchain and decentralized network with JavaScript and Node.js**
+#### ✔ `errors.js` 파일
 
-## What is this book about?
-Learn Blockchain Programming with JavaScript begins by giving you a clear understanding of what blockchain technology is. You’ll then set up an environment to build your very own blockchain and you’ll add various functionalities to it. By adding functionalities to your blockchain such as the ability to mine new blocks, create transactions, and secure your blockchain through a proof-of-work you’ll gain an in-depth understanding of how blockchain technology functions.
+`errors.js` 파일은 다양한 예외를 정의하고, 이 예외들을 사용하여 다른 파일에서 일관되게 예외를 처리합니다.
 
-This book covers the following exciting features:
-* Gain an in-depth understanding of blockchain and the environment setup
-* Create your very own decentralized blockchain network from scratch
-* Build and test the various endpoints necessary to create a decentralized network
-* Learn about proof-of-work and the hashing algorithm used to secure data
-* Mine new blocks, create new transactions, and store the transactions in blocks
+#### ✔ blockchain.js 파일 수정 내용
 
-If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1789618827) today!
+blockchain.js 파일에서는 다양한 예외를 처리하도록 수정하였습니다. 각 함수에서 발생할 수 있는 예외 상황을 errors.js에서 정의한 예외 클래스를 사용하여 처리합니다.
 
-<a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
-alt="https://www.packtpub.com/" border="5" /></a>
+1. `getLastBlock` 메서드에서 체인이 비어있는 경우 예외 처리 추가
+2. `createNewTransaction` 메서드에서 트랜잭션 금액이 0 이하이거나 잔액이 부족한 경우 예외 처리 추가
+3. `addTransactionToPendingTransactions` 메서드에서 트랜잭션 필드가 부족한 경우 예외 처리 추가
+4. `chainIsValid` 메서드에서 블록체인이 배열 형식이 아닌 경우 예외 처리 추가
+5. `getBlock` 메서드에서 블록 해시가 문자열이 아닌 경우 및 블록을 찾을 수 없는 경우 예외 처리 추가
+6. `getTransaction` 메서드에서 트랜잭션 ID가 문자열이 아닌 경우 및 트랜잭션을 찾을 수 없는 경우 예외 처리 추가
+7. `getAddressData` 메서드에서 주소가 문자열이 아닌 경우 예외 처리 추가
 
+#### ✔ 네트워크 관련 예외 처리
 
-## Instructions and Navigations
-All of the code is organized into folders. For example, Chapter02.
+networkNode.js 파일에서도 예외 처리를 강화하여 예외 상황에 대한 대응을 개선하였습니다.
 
-The code will look like the following:
-```
-Blockchain.prototype.createNewBlock = function () {
-}
-```
+1. 블록체인 정보를 가져올 때 예외 처리 추가
+2. 트랜잭션 생성 시 예외 처리 추가
+3. 트랜잭션 브로드캐스트 시 예외 처리 추가
 
-**Following is what you need for this book:**
-_Learn Blockchain Programming with JavaScript_ is for JavaScript developers who wish to learn about blockchain programming or build their own blockchain using JavaScript frameworks.
+### 2. 잔액 조회 코드 추가
 
-With the following software and hardware list you can run all code files present in the book (Chapter 1-8).
-
-### Software and Hardware List
-
-| Chapter  | Software required                   | OS required                        |
-| -------- | ------------------------------------| -----------------------------------|
-| 1-8        | Any text editor and Node.js                  | Windows, Mac OS X |
-
-### Related products <Other books you may enjoy>
-* Learn Bitcoin and Blockchain [[Packt]](https://www.packtpub.com/big-data-and-business-intelligence/learn-bitcoin-and-blockchain?utm_source=github&utm_medium=repository&utm_campaign=9781789536133) [[Amazon]](https://www.amazon.com/dp/1789536138)
-
-* Building Enterprise JavaScript Applications [[Packt]](https://www.packtpub.com/web-development/building-enterprise-javascript-applications?utm_source=github&utm_medium=repository&utm_campaign=9781788477321) [[Amazon]](https://www.amazon.com/dp/1788477324)
-
-## Get to Know the Author
-**Eric Traub** currently works as a software engineer in New York City. He has extensive experience working as a teacher and instructing people in a variety of different subjects. He changed his career from teaching to software engineering because of the excitement it brings to him and the passion that he has for it. He is now lucky enough to have the opportunity to combine both of these passions – software engineering and teaching!
-
-### Suggestions and Feedback
-[Click here](https://docs.google.com/forms/d/e/1FAIpQLSdy7dATC6QmEL81FIUuymZ0Wy9vH1jHkvpY57OiMeKGqib_Ow/viewform) if you have any feedback or suggestions.
-### Download a free PDF
-
- <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
-<p align="center"> <a href="https://packt.link/free-ebook/9781789618822">https://packt.link/free-ebook/9781789618822 </a> </p>
+코인 송금 전에 잔액을 조회하여 송금 가능 여부를 확인하는 코드를 추가하였습니다. 이 코드는 blockchain.js 파일의 createNewTransaction 메서드에 적용되었습니다.
